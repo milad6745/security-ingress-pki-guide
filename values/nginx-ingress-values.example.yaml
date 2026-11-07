@@ -1,0 +1,18 @@
+# Example for F5 NGINX Ingress Controller chart 2.8.0.
+# Check exact chart schema with helm show values before using.
+controller:
+  image:
+    repository: repo-sec.nexus.local:31920/nginx/nginx-ingress
+    tag: "5.7.0"
+  ingressClass:
+    name: nginx-f5
+  replicaCount: 1
+  service:
+    type: NodePort
+    externalTrafficPolicy: Local
+    httpPort:
+      enable: true
+      nodePort: 30080
+    httpsPort:
+      enable: true
+      nodePort: 30443

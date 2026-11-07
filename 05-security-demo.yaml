@@ -1,0 +1,35 @@
+# Ensure this image is mirrored in the internal Nexus before deployment.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-demo
+  namespace: nginx-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security-demo
+  template:
+    metadata:
+      labels:
+        app: security-demo
+    spec:
+      containers:
+        - name: nginx
+          image: repo-sec.nexus.local:31920/library/nginx:alpine
+          ports:
+            - name: http
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: security-demo
+  namespace: nginx-ingress
+spec:
+  selector:
+    app: security-demo
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

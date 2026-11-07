@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cert-security
+  namespace: nginx-ingress
+spec:
+  secretName: cert-security-tls
+  commonName: cert.security.local
+  dnsNames:
+    - cert.security.local
+  duration: 2160h
+  renewBefore: 360h
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  issuerRef:
+    name: cluster-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

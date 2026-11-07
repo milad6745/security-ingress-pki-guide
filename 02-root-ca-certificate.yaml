@@ -1,0 +1,23 @@
+# Lab-only bootstrap. DO NOT reapply to replace existing production PKI.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cluster-root-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: security-lab-root-ca
+  secretName: cluster-root-ca-secret
+  duration: 87600h  # 10 years, lab example only
+  renewBefore: 720h
+  privateKey:
+    algorithm: RSA
+    size: 4096
+    rotationPolicy: Never
+  subject:
+    organizations:
+      - Security Lab
+  issuerRef:
+    name: root-selfsigned
+    kind: ClusterIssuer
+    group: cert-manager.io

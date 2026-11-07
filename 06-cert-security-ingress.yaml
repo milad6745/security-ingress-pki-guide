@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cert-security-ingress
+  namespace: nginx-ingress
+  annotations:
+    nginx.org/ssl-redirect: "true"
+    nginx.org/http-redirect-code: "308"
+spec:
+  ingressClassName: nginx-f5
+  tls:
+    - hosts:
+        - cert.security.local
+      secretName: cert-security-tls
+  rules:
+    - host: cert.security.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: security-demo
+                port:
+                  number: 80
